@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Merendai",
+    "slug": "merendai",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "merendai",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": { "backgroundColor": "#1B5E3A" },
+    "android": {
+      "package": "br.com.merendai.app",
+      "permissions": ["RECORD_AUDIO", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
+    "ios": {
+      "bundleIdentifier": "br.com.merendai.app",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "O Merendai ouve voce para montar suas vendas por voz.",
+        "NSSpeechRecognitionUsageDescription": "Transformamos sua fala em texto para entender o pedido."
+      }
+    },
+    "plugins": [
+      "expo-router",
+      ["expo-speech-recognition", { "microphonePermission": "O Merendai ouve voce para montar suas vendas por voz." }]
+    ],
+    "extra": { "apiUrl": "http://10.0.2.2:3333/api" }
+  }
+}
