@@ -1,0 +1,21 @@
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: merendai-oracle
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: oracle            # senha do SYS/SYSTEM (dev only)
+      APP_USER: merendai
+      APP_USER_PASSWORD: merendai
+    volumes:
+      # scripts rodam em ordem alfabetica na primeira subida, como usuario APP_USER
+      - ./ddl/01_schema.sql:/container-entrypoint-initdb.d/01_schema.sql:ro
+      - ./plsql/02_pkg_merendai.sql:/container-entrypoint-initdb.d/02_pkg_merendai.sql:ro
+      - ./plsql/03_triggers.sql:/container-entrypoint-initdb.d/03_triggers.sql:ro
+      - ./seed/04_seed.sql:/container-entrypoint-initdb.d/04_seed.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
