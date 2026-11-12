@@ -1,0 +1,175 @@
+erDiagram
+    MUNICIPIO ||--o{ TECNICO : "atua em"
+    MUNICIPIO ||--o{ PRODUTOR : "sediado em"
+    MUNICIPIO ||--o{ ESCOLA : "mantem"
+    MUNICIPIO ||--o{ CHAMADA : "publica"
+
+    USUARIO ||--o| TECNICO : "e um"
+    USUARIO ||--o| PRODUTOR : "e um"
+
+    TECNICO ||--o{ PRODUTOR : "cadastra e acompanha"
+    TECNICO ||--o{ PROPOSTA : "revisa"
+
+    PRODUTOR ||--o{ PRODUCAO : "planta"
+    PRODUTO  ||--o{ PRODUCAO : "e plantado"
+    PRODUTO  ||--o{ ITEM_CHAMADA : "e pedido"
+
+    CHAMADA ||--|{ ITEM_CHAMADA : "contem"
+    CHAMADA ||--o{ PROPOSTA : "recebe"
+
+    ITEM_CHAMADA ||--o{ PROSPECT : "gera (matching PL/SQL)"
+    PRODUTOR     ||--o{ PROSPECT : "e candidato"
+
+    PRODUTOR ||--o{ PROPOSTA : "lidera"
+    PROPOSTA ||--|{ PARTICIPANTE_MUTIRAO : "reune"
+    PRODUTOR ||--o{ PARTICIPANTE_MUTIRAO : "participa"
+
+    PROPOSTA     ||--|{ ITEM_PROPOSTA : "oferta"
+    ITEM_CHAMADA ||--o{ ITEM_PROPOSTA : "atende"
+    PRODUTOR     ||--o{ ITEM_PROPOSTA : "entrega"
+
+    ITEM_PROPOSTA ||--o{ ENTREGA : "agenda"
+    ESCOLA        ||--o{ ENTREGA : "recebe"
+    ENTREGA       ||--o| PAGAMENTO : "gera"
+
+    PRODUTOR ||--o{ INDICACAO : "embaixador indica"
+    PRODUTOR ||--o| INDICACAO : "e indicado"
+
+    MUNICIPIO {
+        number id_municipio PK
+        varchar nome
+        char uf
+        number latitude
+        number longitude
+        number vl_repasse_fnde
+        number vl_compra_af
+    }
+    USUARIO {
+        number id_usuario PK
+        varchar nome
+        varchar telefone UK
+        varchar senha_hash
+        varchar perfil "PRODUTOR|TECNICO|GESTOR"
+    }
+    TECNICO {
+        number id_tecnico PK
+        number id_usuario FK
+        number id_municipio FK
+        varchar organizacao
+        varchar tipo_org
+    }
+    PRODUTOR {
+        number id_produtor PK
+        number id_usuario FK
+        number id_municipio FK
+        number id_tecnico FK
+        varchar numero_caf UK
+        date caf_valido_ate
+        number latitude
+        number longitude
+        number raio_entrega_km
+        char embaixador
+        number vl_limite_anual
+    }
+    PRODUTO {
+        number id_produto PK
+        varchar nome UK
+        varchar unidade
+        varchar categoria
+        char safra_meses
+    }
+    PRODUCAO {
+        number id_producao PK
+        number id_produtor FK
+        number id_produto FK
+        number qtd_semanal
+        char organico
+    }
+    ESCOLA {
+        number id_escola PK
+        number id_municipio FK
+        varchar nome
+        number qtd_alunos
+    }
+    CHAMADA {
+        number id_chamada PK
+        number id_municipio FK
+        varchar numero_edital
+        varchar resumo_simples "texto para audio"
+        date dt_limite
+        date dt_inicio_entrega
+        date dt_fim_entrega
+        varchar status
+    }
+    ITEM_CHAMADA {
+        number id_item_chamada PK
+        number id_chamada FK
+        number id_produto FK
+        number qtd_total
+        varchar periodicidade
+        number vl_unitario_ref
+        number qtd_atendida
+    }
+    PROSPECT {
+        number id_prospect PK
+        number id_item_chamada FK
+        number id_produtor FK
+        number distancia_km
+        number cobertura
+        number score
+        varchar status
+    }
+    PROPOSTA {
+        number id_proposta PK
+        number id_chamada FK
+        number id_produtor_lider FK
+        number id_tecnico_revisor FK
+        varchar tipo "INDIVIDUAL|MUTIRAO"
+        varchar status
+        number vl_total
+        clob transcricao
+    }
+    PARTICIPANTE_MUTIRAO {
+        number id_proposta PK_FK
+        number id_produtor PK_FK
+        char confirmado
+    }
+    ITEM_PROPOSTA {
+        number id_item_proposta PK
+        number id_proposta FK
+        number id_item_chamada FK
+        number id_produtor FK
+        number qtd_ofertada
+        number vl_unitario
+    }
+    ENTREGA {
+        number id_entrega PK
+        number id_item_proposta FK
+        number id_escola FK
+        date dt_prevista
+        number qtd_prevista
+        number qtd_entregue
+        varchar status
+    }
+    PAGAMENTO {
+        number id_pagamento PK
+        number id_entrega FK
+        number vl_bruto
+        varchar status
+        date dt_prevista
+        date dt_pagamento
+    }
+    INDICACAO {
+        number id_indicacao PK
+        number id_produtor_embaixador FK
+        number id_produtor_indicado FK
+        varchar status
+    }
+    HISTORICO_STATUS {
+        number id_historico PK
+        varchar entidade
+        number id_registro
+        varchar status_de
+        varchar status_para
+        timestamp dt_evento
+    }
