@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: oferece a melhor oportunidade e pede confirmacao
+ok 1 - oferece a melhor oportunidade e pede confirmacao
+  ---
+  duration_ms: 70.864524
+  type: 'test'
+  ...
+# Subtest: "sim" monta o mutirao via sp_montar_mutirao e nomeia os vizinhos
+ok 2 - "sim" monta o mutirao via sp_montar_mutirao e nomeia os vizinhos
+  ---
+  duration_ms: 0.995057
+  type: 'test'
+  ...
+# Subtest: "sim" na etapa de envio chama sp_enviar_proposta e fala o valor
+ok 3 - "sim" na etapa de envio chama sp_enviar_proposta e fala o valor
+  ---
+  duration_ms: 0.678287
+  type: 'test'
+  ...
+# Subtest: "agora nao" encerra sem executar acao
+ok 4 - "agora nao" encerra sem executar acao
+  ---
+  duration_ms: 0.353811
+  type: 'test'
+  ...
+# Subtest: nao atende quem nao e produtor
+ok 5 - nao atende quem nao e produtor
+  ---
+  duration_ms: 0.189984
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 180.745176

@@ -1,0 +1,10 @@
+PASS __tests__/ui.test.ts
+PASS __tests__/useOffline.test.tsx
+
+Test Suites: 2 passed, 2 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        0.643 s, estimated 3 s
+Ran all test suites.
+
+tsc --noEmit: 30 erros
